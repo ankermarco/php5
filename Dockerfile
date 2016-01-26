@@ -11,6 +11,8 @@ ENV APACHE_RUN_USER=www-data
 ENV APACHE_RUN_GROUP=www-data
 ENV APACHE_LOG_DIR=/var/log/apache2
 
+RUN a2enmod rewrite ssl
+
 RUN apt-get update && apt-get install -y php5 libapache2-mod-php5
 
 # Enable required php5 modules
