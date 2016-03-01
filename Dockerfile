@@ -21,6 +21,10 @@ RUN apt-get update && apt-get install -y php5 libapache2-mod-php5
 RUN apt-get update && apt-get install -y php5-mcrypt php5-mysql php5-xsl php5-gd php5-intl php5-curl \
     && php5enmod mcrypt mysql xsl gd intl curl
 
+# Add the Apache virtual host file
+ADD config/apache_default_vhost /etc/apache2/sites-enabled/magento2.conf
+RUN rm -f /etc/apache2/sites-enabled/000-default.conf
+
 COPY apache2-foreground /usr/local/bin/
 RUN chmod +x /usr/local/bin/apache2-foreground
 WORKDIR /var/www/html
