@@ -4,7 +4,8 @@ RUN apt-get update && apt-get install -y apache2
 
 RUN rm -rf /var/www/html && mkdir -p /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html \
     && chown -R www-data:www-data /var/lock/apache2 /var/run/apache2 /var/log/apache2 /var/www/html 
-
+RUN echo "ServerName localhost" | tee /etc/apache2/conf-available/fqdn.conf \ 
+    && a2enconf fqdn
 ENV APACHE_LOCK_DIR=/var/lock/apache2
 ENV APACHE_PID_FILE=/var/run/apache2/apache2.pid
 ENV APACHE_RUN_DIR=/var/run/apache2/
