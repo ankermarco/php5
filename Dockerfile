@@ -12,7 +12,7 @@ ENV APACHE_RUN_DIR=/var/run/apache2/
 ENV APACHE_RUN_USER=www-data
 ENV APACHE_RUN_GROUP=www-data
 ENV APACHE_LOG_DIR=/var/log/apache2
-ENV APACHE_SERVER_NAME=mymagentostore.com
+#ENV APACHE_SERVER_NAME=mymagentostore.com
 
 RUN a2enmod rewrite ssl
 
@@ -30,6 +30,16 @@ RUN a2ensite magento2.conf
 COPY apache2-foreground /usr/local/bin/
 RUN chmod +x /usr/local/bin/apache2-foreground
 WORKDIR /var/www/html
+
+# Install vim, nano, git, curl
+RUN apt-get update && apt-get install -y vim nano git curl
+
+# Install php-composer
+RUN curl -sS https://getcomposer.org/installer | \
+    php -- --filename=composer --install-dir=/usr/local/bin
+
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 80
 EXPOSE 443
