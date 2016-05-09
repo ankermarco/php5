@@ -24,8 +24,14 @@ RUN apt-get update && apt-get install -y php5-mcrypt php5-mysql php5-xsl php5-gd
 
 # Add the Apache virtual host file
 ADD config/apache_default_vhost /etc/apache2/sites-available/magento2.conf
+ADD config/apache_default_vhost_ssl /etc/apache2/sites-available/ssl.conf
 RUN rm -f /etc/apache2/sites-enabled/000-default.conf
 RUN a2ensite magento2.conf
+RUN a2ensite ssl.conf
+
+# Copy SSL cert over
+COPY ssl /etc/apache2/ssl/
+
 
 COPY apache2-foreground /usr/local/bin/
 RUN chmod +x /usr/local/bin/apache2-foreground
